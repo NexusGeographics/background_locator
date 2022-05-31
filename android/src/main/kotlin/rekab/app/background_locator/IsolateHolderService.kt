@@ -86,30 +86,30 @@ class IsolateHolderService : MethodChannel.MethodCallHandler, LocationUpdateList
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // Notification channel is available in Android O and up
             val channel = NotificationChannel(Keys.CHANNEL_ID, notificationChannelName,
-                    NotificationManager.IMPORTANCE_LOW)
+                NotificationManager.IMPORTANCE_LOW)
 
             (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager)
-                    .createNotificationChannel(channel)
+                .createNotificationChannel(channel)
         }
 
         val intent = Intent(this, getMainActivityClass(this))
         intent.action = Keys.NOTIFICATION_ACTION
 
         val pendingIntent: PendingIntent = PendingIntent.getActivity(this,
-                1, intent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
+            1, intent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
 
         return NotificationCompat.Builder(this, Keys.CHANNEL_ID)
-                .setContentTitle(notificationTitle)
-                .setContentText(notificationMsg)
-                .setStyle(NotificationCompat.BigTextStyle()
-                        .bigText(notificationBigMsg))
-                .setSmallIcon(icon)
-                .setColor(notificationIconColor)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setContentIntent(pendingIntent)
-                .setOnlyAlertOnce(true) // so when data is updated don't make sound and alert in android 8.0+
-                .setOngoing(true)
-                .build()
+            .setContentTitle(notificationTitle)
+            .setContentText(notificationMsg)
+            .setStyle(NotificationCompat.BigTextStyle()
+                .bigText(notificationBigMsg))
+            .setSmallIcon(icon)
+            .setColor(notificationIconColor)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setContentIntent(pendingIntent)
+            .setOnlyAlertOnce(true) // so when data is updated don't make sound and alert in android 8.0+
+            .setOngoing(true)
+            .build()
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -251,8 +251,8 @@ class IsolateHolderService : MethodChannel.MethodCallHandler, LocationUpdateList
             val callback = PreferencesManager.getCallbackHandle(context, Keys.CALLBACK_HANDLE_KEY) as Long
 
             val result: HashMap<Any, Any> =
-                    hashMapOf(Keys.ARG_CALLBACK to callback,
-                            Keys.ARG_LOCATION to location)
+                hashMapOf(Keys.ARG_CALLBACK to callback,
+                    Keys.ARG_LOCATION to location)
 
             sendLocationEvent(result)
         }
@@ -266,12 +266,12 @@ class IsolateHolderService : MethodChannel.MethodCallHandler, LocationUpdateList
 
         if (backgroundEngine != null) {
             val backgroundChannel =
-                    MethodChannel(backgroundEngine!.dartExecutor!.binaryMessenger, Keys.BACKGROUND_CHANNEL_ID)
+                MethodChannel(backgroundEngine!!.dartExecutor!!.binaryMessenger, Keys.BACKGROUND_CHANNEL_ID)
             Handler(context.mainLooper)
-                    .post {
-                        Log.d("plugin", "sendLocationEvent $result")
-                        backgroundChannel.invokeMethod(Keys.BCM_SEND_LOCATION, result)
-                    }
+                .post {
+                    Log.d("plugin", "sendLocationEvent $result")
+                    backgroundChannel.invokeMethod(Keys.BCM_SEND_LOCATION, result)
+                }
         }
     }
 
