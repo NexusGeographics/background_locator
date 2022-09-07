@@ -10,6 +10,7 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.view.FlutterCallbackInformation
 import rekab.app.background_locator.provider.LocationRequestOptions
 import java.util.concurrent.atomic.AtomicBoolean
+import android.util.Log
 
 internal fun IsolateHolderService.startLocatorService(context: Context) {
 
