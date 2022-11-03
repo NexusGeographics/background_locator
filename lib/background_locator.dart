@@ -15,6 +15,7 @@ import 'location_dto.dart';
 class BackgroundLocator {
   static const MethodChannel _channel = const MethodChannel(Keys.CHANNEL_ID);
   static AutoStopHandler _autoStopHandler = AutoStopHandler();
+  static bool _autoStopActivated = false;
 
   static Future<void> initialize() async {
     final CallbackHandle callback =
@@ -33,8 +34,9 @@ class BackgroundLocator {
       bool autoStop = false,
       AndroidSettings androidSettings = const AndroidSettings(),
       IOSSettings iosSettings = const IOSSettings()}) async {
-    if (autoStop) {
+    if (autoStop && !_autoStopActivated) {
       _widgetsBinding!.addObserver(_autoStopHandler);
+      _autoStopActivated = true;
     }
 
     final args = SettingsUtil.getArgumentsMap(
@@ -49,8 +51,14 @@ class BackgroundLocator {
         Keys.METHOD_PLUGIN_REGISTER_LOCATION_UPDATE, args);
   }
 
+  static Future<void> unRegisterAutoStop() async {
+    if (_autoStopActivated) {
+      _widgetsBinding!.removeObserver(_autoStopHandler);
+      _autoStopActivated = false;
+    }
+  }
+
   static Future<void> unRegisterLocationUpdate() async {
-    _widgetsBinding!.removeObserver(_autoStopHandler);
     await _channel.invokeMethod(Keys.METHOD_PLUGIN_UN_REGISTER_LOCATION_UPDATE);
   }
 
