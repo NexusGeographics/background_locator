@@ -53,7 +53,7 @@ class BackgroundLocatorPlugin
             }
 
             Log.d("BackgroundLocatorPlugin",
-                "start locator with ${PreferencesManager.getLocationClient(context)} client")
+                    "start locator with ${PreferencesManager.getLocationClient(context)} client")
 
             val callbackHandle = args[Keys.ARG_CALLBACK] as Long
             PreferencesManager.setCallbackHandle(context, Keys.CALLBACK_HANDLE_KEY, callbackHandle)
@@ -81,8 +81,8 @@ class BackgroundLocatorPlugin
             val settings = args[Keys.ARG_SETTINGS] as Map<*, *>
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
-                context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_DENIED) {
+                    context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_DENIED) {
 
                 val msg = "'registerLocator' requires the ACCESS_FINE_LOCATION permission."
                 result?.error(msg, null, null)
@@ -103,22 +103,6 @@ class BackgroundLocatorPlugin
             val intent = Intent(context, IsolateHolderService::class.java)
             intent.action = IsolateHolderService.ACTION_START
             intent.putExtra(Keys.SETTINGS_ANDROID_NOTIFICATION_CHANNEL_NAME,
-<<<<<<< HEAD:android/src/main/kotlin/rekab/app/background_locator/BackgroundLocatorPlugin.kt
-                settings[Keys.SETTINGS_ANDROID_NOTIFICATION_CHANNEL_NAME] as String)
-            intent.putExtra(Keys.SETTINGS_ANDROID_NOTIFICATION_TITLE,
-                settings[Keys.SETTINGS_ANDROID_NOTIFICATION_TITLE] as String)
-            intent.putExtra(Keys.SETTINGS_ANDROID_NOTIFICATION_MSG,
-                settings[Keys.SETTINGS_ANDROID_NOTIFICATION_MSG] as String)
-            intent.putExtra(Keys.SETTINGS_ANDROID_NOTIFICATION_BIG_MSG,
-                settings[Keys.SETTINGS_ANDROID_NOTIFICATION_BIG_MSG] as String)
-            intent.putExtra(Keys.SETTINGS_ANDROID_NOTIFICATION_ICON,
-                settings[Keys.SETTINGS_ANDROID_NOTIFICATION_ICON] as String)
-            intent.putExtra(Keys.SETTINGS_ANDROID_NOTIFICATION_ICON_COLOR,
-                settings[Keys.SETTINGS_ANDROID_NOTIFICATION_ICON_COLOR] as Long)
-            intent.putExtra(Keys.SETTINGS_INTERVAL, settings[Keys.SETTINGS_INTERVAL] as Int)
-            intent.putExtra(Keys.SETTINGS_ACCURACY, settings[Keys.SETTINGS_ACCURACY] as Int)
-            intent.putExtra(Keys.SETTINGS_DISTANCE_FILTER, settings[Keys.SETTINGS_DISTANCE_FILTER] as Double)
-=======
                     settings[Keys.SETTINGS_ANDROID_NOTIFICATION_CHANNEL_NAME] as? String)
             intent.putExtra(Keys.SETTINGS_ANDROID_NOTIFICATION_TITLE,
                     settings[Keys.SETTINGS_ANDROID_NOTIFICATION_TITLE] as? String)
@@ -133,11 +117,10 @@ class BackgroundLocatorPlugin
             intent.putExtra(Keys.SETTINGS_INTERVAL, settings[Keys.SETTINGS_INTERVAL] as? Int)
             intent.putExtra(Keys.SETTINGS_ACCURACY, settings[Keys.SETTINGS_ACCURACY] as? Int)
             intent.putExtra(Keys.SETTINGS_DISTANCE_FILTER, settings[Keys.SETTINGS_DISTANCE_FILTER] as? Double)
->>>>>>> 10b10556223cbd477372f9ca2db8d39bbb44f0d1:android/src/main/kotlin/yukams/app/background_locator_2/BackgroundLocatorPlugin.kt
 
             if (settings.containsKey(Keys.SETTINGS_ANDROID_WAKE_LOCK_TIME)) {
                 intent.putExtra(Keys.SETTINGS_ANDROID_WAKE_LOCK_TIME,
-                    settings[Keys.SETTINGS_ANDROID_WAKE_LOCK_TIME] as Int)
+                        settings[Keys.SETTINGS_ANDROID_WAKE_LOCK_TIME] as Int)
             }
 
             if (PreferencesManager.getCallbackHandle(context, Keys.INIT_CALLBACK_HANDLE_KEY) != null) {
@@ -192,15 +175,15 @@ class BackgroundLocatorPlugin
             intent.action = IsolateHolderService.ACTION_UPDATE_NOTIFICATION
             if (args.containsKey(Keys.SETTINGS_ANDROID_NOTIFICATION_TITLE)) {
                 intent.putExtra(Keys.SETTINGS_ANDROID_NOTIFICATION_TITLE,
-                    args[Keys.SETTINGS_ANDROID_NOTIFICATION_TITLE] as String)
+                        args[Keys.SETTINGS_ANDROID_NOTIFICATION_TITLE] as String)
             }
             if (args.containsKey(Keys.SETTINGS_ANDROID_NOTIFICATION_MSG)) {
                 intent.putExtra(Keys.SETTINGS_ANDROID_NOTIFICATION_MSG,
-                    args[Keys.SETTINGS_ANDROID_NOTIFICATION_MSG] as String)
+                        args[Keys.SETTINGS_ANDROID_NOTIFICATION_MSG] as String)
             }
             if (args.containsKey(Keys.SETTINGS_ANDROID_NOTIFICATION_BIG_MSG)) {
                 intent.putExtra(Keys.SETTINGS_ANDROID_NOTIFICATION_BIG_MSG,
-                    args[Keys.SETTINGS_ANDROID_NOTIFICATION_BIG_MSG] as String)
+                        args[Keys.SETTINGS_ANDROID_NOTIFICATION_BIG_MSG] as String)
             }
 
             ContextCompat.startForegroundService(context, intent)
@@ -209,9 +192,9 @@ class BackgroundLocatorPlugin
         @JvmStatic
         private fun setCallbackDispatcherHandle(context: Context, handle: Long) {
             context.getSharedPreferences(Keys.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE)
-                .edit()
-                .putLong(Keys.CALLBACK_DISPATCHER_HANDLE_KEY, handle)
-                .apply()
+                    .edit()
+                    .putLong(Keys.CALLBACK_DISPATCHER_HANDLE_KEY, handle)
+                    .apply()
         }
 
         @JvmStatic
@@ -237,35 +220,26 @@ class BackgroundLocatorPlugin
         when (call.method) {
             Keys.METHOD_PLUGIN_INITIALIZE_SERVICE -> {
                 val args: Map<Any, Any>? = call.arguments()
-<<<<<<< HEAD:android/src/main/kotlin/rekab/app/background_locator/BackgroundLocatorPlugin.kt
-
-                // save callback dispatcher to use it when device reboots
-                PreferencesManager.saveCallbackDispatcher(context!!, args!!)
-=======
 
                    // save callback dispatcher to use it when device reboots
                 PreferencesManager.saveCallbackDispatcher(context!! , args!!)
 
 
 
->>>>>>> 10b10556223cbd477372f9ca2db8d39bbb44f0d1:android/src/main/kotlin/yukams/app/background_locator_2/BackgroundLocatorPlugin.kt
 
-                initializeService(context!!, args!!)
+                initializeService(context!!, args)
                 result.success(true)
             }
             Keys.METHOD_PLUGIN_REGISTER_LOCATION_UPDATE -> {
                 val args: Map<Any, Any>? = call.arguments()
 
                 // save setting to use it when device reboots
-<<<<<<< HEAD:android/src/main/kotlin/rekab/app/background_locator/BackgroundLocatorPlugin.kt
-=======
 
->>>>>>> 10b10556223cbd477372f9ca2db8d39bbb44f0d1:android/src/main/kotlin/yukams/app/background_locator_2/BackgroundLocatorPlugin.kt
                 PreferencesManager.saveSettings(context!!, args!!)
 
                 registerLocator(context!!,
-                    args!!,
-                    result)
+                        args,
+                        result)
             }
             Keys.METHOD_PLUGIN_UN_REGISTER_LOCATION_UPDATE -> {
                 unRegisterPlugin(context!!, result)
@@ -278,14 +252,10 @@ class BackgroundLocatorPlugin
                 }
 
                 val args: Map<Any, Any>? = call.arguments()
-<<<<<<< HEAD:android/src/main/kotlin/rekab/app/background_locator/BackgroundLocatorPlugin.kt
-                updateNotificationText(context!!, args!!)
-=======
 
                     updateNotificationText(context!!, args!!)
 
 
->>>>>>> 10b10556223cbd477372f9ca2db8d39bbb44f0d1:android/src/main/kotlin/yukams/app/background_locator_2/BackgroundLocatorPlugin.kt
                 result.success(true)
             }
             else -> result.notImplemented()
@@ -308,27 +278,11 @@ class BackgroundLocatorPlugin
     }
 
     override fun onNewIntent(intent: Intent): Boolean {
-<<<<<<< HEAD:android/src/main/kotlin/rekab/app/background_locator/BackgroundLocatorPlugin.kt
-        if (intent?.action != Keys.NOTIFICATION_ACTION) {
-=======
         if (intent.action != Keys.NOTIFICATION_ACTION) {
->>>>>>> 10b10556223cbd477372f9ca2db8d39bbb44f0d1:android/src/main/kotlin/yukams/app/background_locator_2/BackgroundLocatorPlugin.kt
             // this is not our notification
             return false
         }
 
-<<<<<<< HEAD:android/src/main/kotlin/rekab/app/background_locator/BackgroundLocatorPlugin.kt
-        val notificationCallback = PreferencesManager.getCallbackHandle(activity!!, Keys.NOTIFICATION_CALLBACK_HANDLE_KEY)
-        if (notificationCallback != null && IsolateHolderService.backgroundEngine != null) {
-            val backgroundChannel =
-                MethodChannel(IsolateHolderService.backgroundEngine!!.dartExecutor!!.binaryMessenger, Keys.BACKGROUND_CHANNEL_ID)
-            activity?.mainLooper?.let {
-                Handler(it)
-                    .post {
-                        backgroundChannel.invokeMethod(Keys.BCM_NOTIFICATION_CLICK,
-                            hashMapOf(Keys.ARG_NOTIFICATION_CALLBACK to notificationCallback))
-                    }
-=======
         IsolateHolderService.getBinaryMessenger(context)?.let { binaryMessenger ->
             val notificationCallback =
                 PreferencesManager.getCallbackHandle(
@@ -350,7 +304,6 @@ class BackgroundLocatorPlugin
                             )
                         }
                 }
->>>>>>> 10b10556223cbd477372f9ca2db8d39bbb44f0d1:android/src/main/kotlin/yukams/app/background_locator_2/BackgroundLocatorPlugin.kt
             }
         }
 

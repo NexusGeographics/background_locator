@@ -104,15 +104,10 @@ class IsolateHolderService : MethodChannel.MethodCallHandler, LocationUpdateList
     private fun getNotification(): Notification {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // Notification channel is available in Android O and up
-<<<<<<< HEAD:android/src/main/kotlin/rekab/app/background_locator/IsolateHolderService.kt
-            val channel = NotificationChannel(Keys.CHANNEL_ID, notificationChannelName,
-                NotificationManager.IMPORTANCE_LOW)
-=======
             val channel = NotificationChannel(
                 Keys.CHANNEL_ID, notificationChannelName,
                 NotificationManager.IMPORTANCE_LOW
             )
->>>>>>> 10b10556223cbd477372f9ca2db8d39bbb44f0d1:android/src/main/kotlin/yukams/app/background_locator_2/IsolateHolderService.kt
 
             (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager)
                 .createNotificationChannel(channel)
@@ -121,28 +116,18 @@ class IsolateHolderService : MethodChannel.MethodCallHandler, LocationUpdateList
         val intent = Intent(this, getMainActivityClass(this))
         intent.action = Keys.NOTIFICATION_ACTION
 
-<<<<<<< HEAD:android/src/main/kotlin/rekab/app/background_locator/IsolateHolderService.kt
-        val pendingIntent: PendingIntent = PendingIntent.getActivity(this,
-            1, intent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
-=======
         val pendingIntent: PendingIntent = PendingIntent.getActivity(
             this,
             1, intent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
->>>>>>> 10b10556223cbd477372f9ca2db8d39bbb44f0d1:android/src/main/kotlin/yukams/app/background_locator_2/IsolateHolderService.kt
 
         return NotificationCompat.Builder(this, Keys.CHANNEL_ID)
             .setContentTitle(notificationTitle)
             .setContentText(notificationMsg)
-<<<<<<< HEAD:android/src/main/kotlin/rekab/app/background_locator/IsolateHolderService.kt
-            .setStyle(NotificationCompat.BigTextStyle()
-                .bigText(notificationBigMsg))
-=======
             .setStyle(
                 NotificationCompat.BigTextStyle()
                     .bigText(notificationBigMsg)
             )
->>>>>>> 10b10556223cbd477372f9ca2db8d39bbb44f0d1:android/src/main/kotlin/yukams/app/background_locator_2/IsolateHolderService.kt
             .setSmallIcon(icon)
             .setColor(notificationIconColor)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
@@ -316,11 +301,6 @@ class IsolateHolderService : MethodChannel.MethodCallHandler, LocationUpdateList
                 )
             }
 
-<<<<<<< HEAD:android/src/main/kotlin/rekab/app/background_locator/IsolateHolderService.kt
-            val result: HashMap<Any, Any> =
-                hashMapOf(Keys.ARG_CALLBACK to callback,
-                    Keys.ARG_LOCATION to location)
-=======
             //https://github.com/flutter/plugins/pull/1641
             //https://github.com/flutter/flutter/issues/36059
             //https://github.com/flutter/plugins/pull/1641/commits/4358fbba3327f1fa75bc40df503ca5341fdbb77d
@@ -343,7 +323,6 @@ class IsolateHolderService : MethodChannel.MethodCallHandler, LocationUpdateList
                 sendLocationEvent(result)
             }
         } catch (e: Exception) {
->>>>>>> 10b10556223cbd477372f9ca2db8d39bbb44f0d1:android/src/main/kotlin/yukams/app/background_locator_2/IsolateHolderService.kt
 
         }
     }
@@ -355,15 +334,6 @@ class IsolateHolderService : MethodChannel.MethodCallHandler, LocationUpdateList
         // new version of flutter can not invoke method from background thread
 
         if (backgroundEngine != null) {
-<<<<<<< HEAD:android/src/main/kotlin/rekab/app/background_locator/IsolateHolderService.kt
-            val backgroundChannel =
-                MethodChannel(backgroundEngine!!.dartExecutor!!.binaryMessenger, Keys.BACKGROUND_CHANNEL_ID)
-            Handler(context.mainLooper)
-                .post {
-                    Log.d("plugin", "sendLocationEvent $result")
-                    backgroundChannel.invokeMethod(Keys.BCM_SEND_LOCATION, result)
-                }
-=======
             context?.let {
                 val backgroundChannel =
                     MethodChannel(
@@ -376,7 +346,6 @@ class IsolateHolderService : MethodChannel.MethodCallHandler, LocationUpdateList
                         backgroundChannel.invokeMethod(Keys.BCM_SEND_LOCATION, result)
                     }
             }
->>>>>>> 10b10556223cbd477372f9ca2db8d39bbb44f0d1:android/src/main/kotlin/yukams/app/background_locator_2/IsolateHolderService.kt
         }
     }
 }
